@@ -11,21 +11,13 @@ public class ParentCars : MonoBehaviour
     public int maxCarLevel = 1;
     public int maxMergableCarLevel = 1;
 
-    private void Update()
-    {
-        CreatingCars();
-        MergeCars();
-    }
     public void CreatingCars()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            GameObject newCar = Instantiate(gameManager.carLevelList[0], transform.parent);
-            cars.Add(newCar);
-            newCar.transform.parent = transform;
-            newCar.SetActive(true);
-            FindingMaxLevelCar();
-        }
+        GameObject newCar = Instantiate(gameManager.carLevelList[0], transform.parent);
+        cars.Add(newCar);
+        newCar.transform.parent = transform;
+        newCar.SetActive(true);
+        FindingMaxLevelCar();
     }
 
     public bool CanWeMergeCars()
@@ -35,7 +27,7 @@ public class ParentCars : MonoBehaviour
         foreach(GameObject car in cars)
         {
             Car carScript = car.GetComponent<Car>();
-            if (carScript.carLevel == maxMergableCarLevel);
+            if(FindingMaxMergableCarLevel(maxCarLevel) == carScript.carLevel)
             {
                 sameCarLevelCount++;
             }
@@ -51,7 +43,7 @@ public class ParentCars : MonoBehaviour
     { 
         int destroyedCars = 0;
 
-        if (CanWeMergeCars() == true && Input.GetKeyDown(KeyCode.Space))
+        if (CanWeMergeCars() == true)
         {
             int count = cars.Count;
 
@@ -112,12 +104,16 @@ public class ParentCars : MonoBehaviour
             if(carScript.carLevel == level)
             {
                 sameCarLevelCount++;
-                if(sameCarLevelCount == 3)
-                {
-                    maxMergableCarLevel = level;
-                    return level;
-                }
             }
+            if (sameCarLevelCount == 3)
+            {
+                maxMergableCarLevel = level;
+                return level;
+            }
+        }
+        if(level == 1)
+        {
+            return level;
         }
         return FindingMaxMergableCarLevel(level - 1);
     }
