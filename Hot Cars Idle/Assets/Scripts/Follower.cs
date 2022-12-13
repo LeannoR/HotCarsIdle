@@ -6,7 +6,7 @@ using PathCreation;
 public class Follower : MonoBehaviour
 {
     public PathCreator pathCreator;
-    public float speed = 5f;
+    public float speed = 60f;
     float distanceTravelled;
     private void Update()
     {

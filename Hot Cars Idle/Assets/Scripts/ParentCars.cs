@@ -13,17 +13,20 @@ public class ParentCars : MonoBehaviour
 
     public void CreatingCars()
     {
-        GameObject newCar = Instantiate(gameManager.carLevelList[0], transform.parent);
-        cars.Add(newCar);
-        newCar.transform.parent = transform;
-        newCar.SetActive(true);
-        FindingMaxLevelCar();
+        if(gameManager.CanWeAffordCreateCarSalary() == true)
+        {
+            GameObject newCar = Instantiate(gameManager.carLevelList[0], transform.parent);
+            cars.Add(newCar);
+            newCar.transform.parent = transform;
+            newCar.SetActive(true);
+            gameManager.CreateCarSalary();
+            FindingMaxLevelCar();
+        }
     }
-
     public bool CanWeMergeCars()
     {
         int sameCarLevelCount = 0;
-
+        
         foreach(GameObject car in cars)
         {
             Car carScript = car.GetComponent<Car>();
@@ -38,12 +41,11 @@ public class ParentCars : MonoBehaviour
         }
         return false;
     }
-
     public void MergeCars()
     { 
         int destroyedCars = 0;
 
-        if (CanWeMergeCars() == true)
+        if (CanWeMergeCars() == true && gameManager.CanWeAffordMergeSalary() == true)
         {
             int count = cars.Count;
 
@@ -64,12 +66,12 @@ public class ParentCars : MonoBehaviour
                     }
                 }
             }
+            gameManager.MergeSalary();
             FindingMaxMergableCarLevel(maxCarLevel);
             RemoveAndDestroyCarsFromLists();
             FindingMaxLevelCar();
         }
     }
-
     public void RemoveAndDestroyCarsFromLists()
     {
         int count = destroyableCarList.Count;
@@ -81,7 +83,6 @@ public class ParentCars : MonoBehaviour
         }
         destroyableCarList.Clear();
     }
-
     public void FindingMaxLevelCar()
     {
         foreach(GameObject car in cars)
@@ -93,7 +94,6 @@ public class ParentCars : MonoBehaviour
             }
         }
     }
-    
     public int FindingMaxMergableCarLevel(int level)
     {
         int sameCarLevelCount = 0;
@@ -116,5 +116,10 @@ public class ParentCars : MonoBehaviour
             return level;
         }
         return FindingMaxMergableCarLevel(level - 1);
+    }
+    public void CarInformationAtCheckPoint(GameObject car)
+    {
+        Car carScript = car.GetComponent<Car>();
+        gameManager.AddingMoneyFromCheckPoint(carScript.income);
     }
 }
