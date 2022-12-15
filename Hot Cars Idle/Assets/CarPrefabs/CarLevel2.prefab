@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carLevel: 2
-  income: 5
+  income: 10
 --- !u!65 &980920428961677484
 BoxCollider:
   m_ObjectHideFlags: 0
