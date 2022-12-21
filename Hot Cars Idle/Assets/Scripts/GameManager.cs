@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public float timeRemaining = 1f;
-    public int dolars = 0;
-    public int mergeCarCost = 10;
+    public float dolars = 0;
+    public float mergeCarCost = 10f;
     public int createCarCost = 5;
     public TextMeshProUGUI dolarCountText;
     public TextMeshProUGUI createCarCostText;
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     public void MergeSalary()
     {
         dolars -= mergeCarCost;
-        mergeCarCost *= 2;
+        mergeCarCost *= 1.25f;
     }
     public void CreateCarSalary()
     {
@@ -78,11 +78,11 @@ public class GameManager : MonoBehaviour
     }
     public void DisplayCreateCarCost()
     {
-        createCarCostText.text = createCarCost.ToString() + "\nCreate Car";
+        createCarCostText.text = createCarCost.ToString();
     }
     public void DisplayMergeCarCost()
     {
-        mergeCarCostText.text = mergeCarCost.ToString() + "\nMerge Car";
+        mergeCarCostText.text = mergeCarCost.ToString();
     }
 }
 
